@@ -116,7 +116,18 @@ RUN set -ex; \
 		\) -exec rm -rf '{}' +; \
 	rm -f get-pip.py
 
+# install uwsgi
+RUN apk add --no-cache libuuid \
+	&& apk add --no-cache pcre \
+	&& apk add --no-cache pcre-dev \
+	&& apk add --no-cache mailcap \
+	&& apk add --no-cache gcc \
+	&& apk add --no-cache libc-dev \
+	&& apk add --no-cache linux-headers \
+	&& pip install --no-cache-dir uwsgi \
+	&& apk del gcc libc-dev linux-headers
+
 # clear
 RUN rm -rf /tmp/soft
-
-CMD ["python2"]
+EXPOSE 8000
+#CMD ["python2"]
